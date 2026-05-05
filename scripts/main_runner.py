@@ -3,6 +3,7 @@ from pathlib import Path
 
 from loguru import logger
 
+from recodai_sifd.utils.model_assets import ensure_panel_detector_model
 from figure_panel_detection import FigurePanelDetector
 from recodai_sifd.pipeline.figure_kind import classify_figure_kind
 from recodai_sifd.pipeline.figure_pipeline import FigurePipeline, FigurePipelineConfig
@@ -147,7 +148,8 @@ def main() -> int:
 
     debug = bool(args.debug)
 
-    panel_detector = FigurePanelDetector(model_onnx=args.model)
+    model_path = ensure_panel_detector_model(args.model)
+    panel_detector = FigurePanelDetector(model_onnx=model_path)
     sub_writer = SubmissionWriter()
 
     # Save policy (I/O only; should not affect matching decision)
