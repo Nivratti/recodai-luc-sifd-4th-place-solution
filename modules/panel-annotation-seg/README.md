@@ -1,2 +1,0 @@
-# panel-annotation-seg
-Train a high-precision binary segmentation model that predicts an annotation_mask for overlaid graphics on scientific panel crops (text labels, arrows, scale bars, callouts, boxes). The mask lets downstream similarity matching and forgery-detection ignore overlays and focus on true image content. Includes dataset/synthetic overlay generation, training/inference utilities, and per-sample metadata export for reproducibility.
