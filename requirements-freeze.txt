@@ -32,7 +32,6 @@ numba==0.65.1
 numpy==2.4.4
 onnxruntime==1.25.1
 opencv-contrib-python==4.13.0.92
-opencv-python==4.13.0.92
 packaging==26.0
 pandas==3.0.2
 pillow==12.2.0
