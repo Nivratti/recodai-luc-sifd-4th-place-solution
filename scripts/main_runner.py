@@ -19,7 +19,7 @@ def build_argparser() -> argparse.ArgumentParser:
     p.add_argument(
         "--input",
         dest="input_path",
-        default="/mnt/data-disk/recodai-sifd-assets/datasets/raw/recodai-sifd-competition-data/supplemental_images/1712.png",
+        default="resources/samples",
         help="Single image file OR a folder of images",
     )
     p.add_argument("--out", default="runs/sifd/v1", help="Output folder (e.g., runs/sifd/v1)")
@@ -27,8 +27,11 @@ def build_argparser() -> argparse.ArgumentParser:
     # Panel detector
     p.add_argument(
         "--model",
-        default="/mnt/data-disk/recodai-sifd-assets/models/panel-det/yolov5-onnx/model_4_class.onnx",
-        help="Path to panel detector .onnx model",
+        default="models/panel_detector/model_4_class.onnx",
+        help=(
+            "Path to panel detector .onnx model. If the model or class JSON is missing, "
+            "the public release files are downloaded automatically."
+        ),
     )
     p.add_argument("--conf-thres", type=float, default=0.4, help="Confidence threshold")
     p.add_argument("--iou-thres", type=float, default=0.4, help="IoU threshold for NMS")
@@ -48,7 +51,7 @@ def build_argparser() -> argparse.ArgumentParser:
 
     p.add_argument(
         "--gt-mask-dir",
-        default="/mnt/data-disk/recodai-sifd-assets/datasets/raw/recodai-sifd-competition-data/supplemental_masks/",
+        default=None,
         help="Optional GT mask folder for LOCAL evaluation (dev only). Mask filename must be <case_id>.png",
     )
     p.add_argument("--gt-channel-axis", type=int, default=0, choices=[-1, 0])  # -1: (H,W,K), 0: (K,H,W)
