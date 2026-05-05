@@ -13,10 +13,12 @@ This repo supports **two ways of using the detector**:
 - **CLI Reference**: [`docs/CLI_REFERENCE.md`](docs/CLI_REFERENCE.md)
 
 **Phase 1 (current focus):**
+
 - ✅ **Microscopy panels**
 - ✅ **Blot / gel panels** (e.g., western blots)
 
 **Phase 2 (planned):**
+
 - ⏳ Flow cytometry plots
 - ⏳ Graphs / charts (bar/line/scatter, etc.)
 - ⏳ Better compound-figure layout parsing (panel grids, montages, insets)
@@ -26,12 +28,14 @@ This repo supports **two ways of using the detector**:
 ## What this repo does
 
 Given an input scientific figure (often a “compound figure” containing many sub-images), this project can:
+
 1. **Detect panel bounding boxes**
 2. **Extract crops** (either in-memory via the API, or on-disk via the CLI)
 3. **Render visual overlays** (either in-memory or on-disk)
 4. Export results in common formats (YOLO/COCO/CSV)
 
 Designed for downstream tasks such as:
+
 - scientific image forensics (duplication / reuse detection / manipulation localization)
 - dataset creation (panel-level datasets)
 - figure understanding / layout analysis pipelines
@@ -54,6 +58,7 @@ For each input image you can produce:
 This repo runs **YOLOv5-style ONNX inference** via **ONNX Runtime**.
 
 ### Model files (required)
+
 The detector expects an ONNX model and a sidecar JSON **next to it**:
 
 - `model_4_class.onnx`
@@ -302,6 +307,7 @@ Or:
 ```python
 res = det.predict(img_path, assign_panel_ids=True, panel_id_order="yx")
 ```
+
 ---
 
 ## CLI usage (disk pipeline)
@@ -396,8 +402,7 @@ Enable saving cropped regions:
 
 ### Crop modes
 
-**1) Default: class mode**  
-Saves under:
+**1) Default: class mode**Saves under:
 
 - `crops/<class_name>/...`
 
@@ -407,8 +412,8 @@ Preserves batch folders in batch layout.
 --save-crop --crop-mode class
 ```
 
-**2) Image mode**  
-Creates a folder per input image and saves each crop inside it.  
+**2) Image mode**
+Creates a folder per input image and saves each crop inside it.
 Also preserves batch folders when `--layout batch`.
 
 ```bash
@@ -495,3 +500,20 @@ pytest
 ```
 
 See `tests/README.md` for details.
+
+## Attribution
+
+This module is based on a modified version of ResearchIntegrity `panel-extractor`:
+
+https://github.com/researchintegrity/panel-extractor
+
+The original project provides YOLO-based panel extraction for scientific images.
+
+Main modifications in this repository include:
+
+- ONNX Runtime inference support.
+- Python API wrappers.
+- Integration changes for the Recod.ai LUC Scientific Image Forgery Detection solution pipeline.
+- Output formatting and crop handling changes used by the Kaggle solution.
+
+The original project is licensed under AGPL-3.0. See `LICENSE` and `NOTICE.md` for details.

@@ -3,10 +3,11 @@
 Keypoint-based copy‑move / overlap detection using SIFT‑style local features + geometric verification.
 
 This repo supports:
+
 - **Single‑image copy‑move detection** (detect duplicated regions within one image)
 - **Cross‑image overlap / reuse detection** (detect duplicated content between two images)
 
-✅ **New (Public Python API):** `copy_move_det_keypoint.api`  
+✅ **New (Public Python API):** `copy_move_det_keypoint.api`
 Returns **numpy arrays** (masks, matched keypoints, metrics), and optionally writes output files only when `save_dir` is provided.
 
 ---
@@ -16,6 +17,7 @@ Returns **numpy arrays** (masks, matched keypoints, metrics), and optionally wri
 Create a fresh environment and install dependencies.
 
 Minimum requirements (typical):
+
 - Python 3.9+
 - `numpy`
 - `opencv-contrib-python` (for SIFT)
@@ -24,11 +26,13 @@ Minimum requirements (typical):
 - `scikit-learn`
 
 Example:
+
 ```bash
 pip install numpy opencv-contrib-python pillow scipy scikit-learn
 ```
 
 Optional (only if you want the VLFeat descriptor option):
+
 - `cyvlfeat` (usually easiest via conda)
 
 ---
@@ -40,8 +44,8 @@ Input types: `str|Path`, `np.ndarray`, `PIL.Image.Image` (see `docs/PYTHON_API.m
 ### Detailed API docs
 
 For prepared/cached features (one-to-many / all-pairs optimization) and pruning APIs, see:
-- `docs/PYTHON_API.md`
 
+- `docs/PYTHON_API.md`
 
 ### 1) Make the package importable
 
@@ -96,11 +100,13 @@ print(res.outputs)  # dict of file paths
 ```
 
 `outputs` keys (cross-image) typically include:
+
 - `mask_path` (combined)
 - `mask_source_path`, `mask_target_path`
 - `matches_path`, `clusters_path`
 
 Single-image outputs typically include:
+
 - `mask_path`
 - `matches_path`, `clusters_path`
 
@@ -119,9 +125,10 @@ If you need **one-to-many** or **all-pairs** matching, use the prepared/cached f
 
 See: [docs/PYTHON_API.md](docs/PYTHON_API.md)
 
-
 ### `DetectorConfig`
+
 Public configuration (defaults mirror the existing CLI / detector behavior):
+
 - `descriptor_type` (e.g., `DescriptorType.CV_RSIFT`)
 - `alignment_strategy` (e.g., `AlignmentStrategy.CV_MAGSAC`)
 - `matching_method` (e.g., `MatchingMethod.BF`)
@@ -133,6 +140,7 @@ Public configuration (defaults mirror the existing CLI / detector behavior):
 - `single_kp_count` (int)
 
 ### `DetectionResult`
+
 Returned by `detect(...)`:
 
 - `is_match: bool`
@@ -161,6 +169,7 @@ python -m copy_move_det_keypoint.run_detection --help
 ```
 
 Example:
+
 ```bash
 python -m copy_move_det_keypoint.run_detection \
   --input resources/images/1712_000.png resources/images/1712_000.png \
@@ -181,6 +190,20 @@ This is **not** imported as part of the Python package; it exists only for refer
 
 ---
 
-## License
 
-AGPL‑3.0 — see [LICENSE](LICENSE).
+## Attribution
+
+This module is based on a modified version of ResearchIntegrity `copy-move-detection-keypoint`:
+
+https://github.com/researchintegrity/copy-move-detection-keypoint
+
+The original project provides keypoint-based copy-move detection for identifying duplicated regions within or across images.
+
+Main modifications in this repository include:
+
+- Python API for programmatic use.
+- Cross-panel / pairwise matching integration.
+- Prepared/cached feature workflows for faster repeated matching.
+- Return objects and mask outputs used by the Recod.ai LUC SIFD solution pipeline.
+
+The original project is licensed under AGPL-3.0. See `LICENSE` and `NOTICE.md` for details.
