@@ -1,0 +1,131 @@
+seed: 123
+
+input:
+  recursive: true
+  exts: [".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp", ".webp"]
+
+output:
+  out_dir: "./out/pairs_v1"
+  image_format: "png"      # RGB images: png/jpg
+  mask_format: "png"       # masks should stay png (avoid jpg compression)
+  jpg_quality: 95
+  fixed_size: null         # e.g. [512, 512] or null
+  mask_generation_space: "final"  # "final" or "source" (final recommended)
+  batch_size: 100
+  write_per_sample_meta: true
+
+sampling:
+  strategy: "per_type_counts"    # "per_type_counts" | "probabilistic"
+
+  per_image_counts:
+    FULL_DUPLICATE: 3
+    FULL_OVERLAP_CROP: 3
+    PARTIAL_OVERLAP: 3
+    NO_MATCH: 3
+
+  # Used only when strategy == probabilistic
+  pairs_per_image: 12
+  type_probs:
+    FULL_DUPLICATE: 0.25
+    FULL_OVERLAP_CROP: 0.25
+    PARTIAL_OVERLAP: 0.25
+    NO_MATCH: 0.25
+
+  use_full_image_prob: 0.30
+
+  crop:
+    area_range: [0.15, 0.95]
+    aspect_ratio_range: [0.6, 1.7]
+    min_side_px: 96
+    max_tries: 80
+
+    content_filter:
+      enabled: false
+      method: "edge_density"
+      min_score: 0.02
+
+no_match:
+  require_disjoint: true
+  max_tries: 200
+  fallback:
+    enabled: true
+    gap_px: 1
+    schemes: ["HALVES_LR", "HALVES_TB", "QUADRANTS_2X2", "GRID_3X3", "GRID_4X4"]
+
+full_duplicate:
+  augment_prob: 0.85
+  augments:
+    max_ops: 3
+    allow_geometric: true
+    rotate90_prob: 0.25
+    flip_prob: 0.25
+    brightness_contrast_prob: 0.35
+    gamma_prob: 0.20
+    blur_prob: 0.15
+    noise_prob: 0.15
+    jpeg_prob: 0.25
+    jpeg_quality_range: [35, 95]
+    color_remap_prob: 0.05
+
+full_overlap_crop:
+  max_tries: 250
+  direction_probs:
+    A_IN_B: 0.5
+    B_IN_A: 0.5
+
+  big_crop:
+    use_full_image_prob: 0.20
+    area_range: [0.40, 0.95]
+    aspect_ratio_range: [0.6, 1.7]
+
+  small_in_big:
+    area_ratio_of_big: [0.25, 0.75]
+    min_side_px: 96
+    gap_px: 0
+
+  augments:
+    apply_prob: 0.60
+    max_ops: 3
+    allow_geometric: false
+    rotate90_prob: 0.25
+    flip_prob: 0.25
+    brightness_contrast_prob: 0.35
+    gamma_prob: 0.20
+    blur_prob: 0.15
+    noise_prob: 0.15
+    jpeg_prob: 0.25
+    jpeg_quality_range: [35, 95]
+    color_remap_prob: 0.05
+
+partial_overlap:
+  max_tries: 350
+
+  base_crop:
+    use_full_image_prob: 0.30
+    area_range: [0.50, 0.98]
+    aspect_ratio_range: [0.6, 1.7]
+
+  # overlap fractions (overlap_area / area(panel))
+  overlap_ratio_A: [0.10, 0.60]
+  overlap_ratio_B: [0.10, 0.60]
+  forbid_containment: true
+
+  patterns:
+    SHIFTED_VIEW: 0.40
+    OFFSET_CROPS: 0.35
+    STRIP_OVERLAP: 0.15
+    CORNER_OVERLAP: 0.10
+
+  augments:
+    apply_prob: 0.60
+    max_ops: 3
+    allow_geometric: false
+    rotate90_prob: 0.25
+    flip_prob: 0.25
+    brightness_contrast_prob: 0.35
+    gamma_prob: 0.20
+    blur_prob: 0.15
+    noise_prob: 0.15
+    jpeg_prob: 0.25
+    jpeg_quality_range: [35, 95]
+    color_remap_prob: 0.05

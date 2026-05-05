@@ -1,0 +1,10 @@
+nb_utils
+loguru
+tqdm
+
+numpy
+opencv-python
+pillow
+
+pyyaml 
+ 

@@ -1,0 +1,16 @@
+# Python dependencies for copy-move-detection-keypoint
+
+# Core dependencies
+numpy>=1.21.0
+opencv-python-headless>=4.5.0
+scikit-learn>=1.0.0
+scipy>=1.7.0
+Pillow>=8.0.0
+
+# Visualization (optional, for matplotlib-based plots)
+matplotlib>=3.4.0
+tqdm>=4.60.0
+
+# VLFeat SIFT with histogram equalization (required)
+# Install via conda: conda install -c conda-forge cyvlfeat
+# Note: cyvlfeat is not available on PyPI, must use conda

@@ -1,0 +1,10 @@
+nb_utils
+loguru
+
+numpy
+opencv-python
+pillow
+scikit-learn
+
+pandas
+numba

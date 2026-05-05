@@ -1,0 +1,9 @@
+{
+  "class_names": {
+    "0": "Blots",
+    "1": "Graphs",
+    "2": "Microscopy",
+    "3": "Body Imaging",
+    "4": "Flow Cytometry"
+  }
+}

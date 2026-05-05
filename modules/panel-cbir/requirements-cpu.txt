@@ -1,0 +1,9 @@
+nb_utils
+loguru
+
+numpy
+pillow
+opencv-python
+
+torch
+timm

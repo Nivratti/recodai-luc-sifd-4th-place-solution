@@ -1,0 +1,8 @@
+nb_utils
+loguru
+
+numpy
+opencv-python
+pillow
+tqdm
+matplotlib

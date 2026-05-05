@@ -1,0 +1,19 @@
+name: recodai-sifd
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip
+  - numpy<2.3
+  - opencv
+  - matplotlib
+  - pillow
+  - pandas
+  - scikit-image
+  - tqdm
+  - jupyterlab
+  - ipykernel
+  - pip:
+      - pytest
+      - rich
+      - loguru
