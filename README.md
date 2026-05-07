@@ -6,6 +6,7 @@ This repository contains a cleaned public version of my 4th place solution for t
 
 The code was cleaned from the exact Kaggle submission build to make it easier to install, and run.
 
+
 ## What this solution does
 
 The pipeline performs:
@@ -17,11 +18,7 @@ The pipeline performs:
 5. Reuse group construction
 6. Competition-format `submission.csv` generation
 
-The main runner is:
-
-```text
-scripts/main_runner.py
-````
+The main runner is `scripts/main_runner.py`.
 
 ## Repository structure
 
@@ -39,116 +36,73 @@ scripts/main_runner.py
 │   └── recodai_sifd/
 ├── requirements.txt
 └── requirements-freeze.txt
+└── pyproject.toml
 ```
 
 ## Setup
 
-Python 3.11 is recommended.
-
-Create and activate a conda environment:
-
 ```bash
-conda create -n recodai-sifd-public python=3.11 -y
-conda activate recodai-sifd-public
+# CPU
+pip install -e ".[all,cpu]"
+
+# GPU
+pip install -e ".[all,gpu]"
 ```
 
-Install dependencies:
-
-```bash
-python -m pip install -U pip setuptools wheel
-pip install -r requirements.txt
-```
-
-Install this repository and local modules:
-
-```bash
-pip install -e .
-pip install -e modules/figure-panel-detection
-pip install -e modules/copy-move-det-keypoint
-pip install -e modules/panel-cbir
-```
+This installs all dependencies and all local modules in one step.
 
 ## Model weights
 
-The panel detector uses an ONNX model released separately in GitHub Releases:
+The panel detector ONNX model is downloaded automatically on the first run from the [GitHub release](https://github.com/Nivratti/recodai-luc-sifd-4th-place-solution/releases/tag/panel-detector-v1.0). The CBIR backbone weights (`timm`/`resnet50`) are also downloaded on first run.
 
-[https://github.com/Nivratti/recodai-luc-sifd-4th-place-solution/releases/tag/panel-detector-v1.0](https://github.com/Nivratti/recodai-luc-sifd-4th-place-solution/releases/tag/panel-detector-v1.0)
+Internet access is required for the first run.
 
-The runner automatically downloads these files if they are missing locally:
+## Quick start
 
-```text
-models/panel_detector/model_4_class.onnx
-models/panel_detector/model_4_class.json
-```
-
-The first run may also download the CBIR backbone weights used by `timm`.
-
-Internet access is required for the first run unless the files are already cached or downloaded.
-
-## Quick smoke test
-
-Run this from the repository root:
+Run on the bundled sample image — no flags needed:
 
 ```bash
-python scripts/main_runner.py \
-  --input resources/samples \
-  --out runs/smoke \
-  --max-images 1 \
-  --reuse-prune \
-  --reuse-cbir-topk 3 \
-  --reuse-cbir-batch-size 16 \
-  --reuse-cbir-device cpu
+python scripts/main_runner.py
 ```
 
 Expected output:
 
 ```text
-runs/smoke/submission.csv
+runs/sifd/v1/submission.csv
 ```
 
-## Run on a folder of images
+## Run on your own images
+
+```bash
+python scripts/main_runner.py --input path/to/images --out runs/my_run
+```
+
+## GPU run
 
 ```bash
 python scripts/main_runner.py \
   --input path/to/images \
   --out runs/my_run \
-  --reuse-prune \
-  --reuse-cbir-topk 3 \
-  --reuse-cbir-batch-size 16 \
-  --reuse-cbir-device cpu
+  --reuse-cbir-device cuda \
+  --reuse-cbir-fp16 \
+  --reuse-cbir-score-fp16
 ```
 
-For GPU, use:
+## Key options
 
-```bash
---reuse-cbir-device cuda
-```
+| Flag | Default | Description |
+|---|---|---|
+| `--input` | `resources/samples` | Image file or folder |
+| `--out` | `runs/sifd/v1` | Output folder |
+| `--reuse-cbir-device` | `cpu` | Device for CBIR (`cpu`, `cuda`, `cuda:0`) |
+| `--reuse-cbir-topk` | `12` | Top-K candidates per panel from CBIR |
+| `--reuse-cbir-batch-size` | `64` | CBIR batch size |
+| `--reuse-cbir-fp16` | `False` | fp16 embeddings — enable for GPU |
+| `--reuse-prune` | `True` | Candidate pruning (CBIR + geometry + grouping) |
+| `--max-images` | `None` | Process only first N images (useful for testing) |
+| `--debug` | `False` | Verbose logs and extra artifacts |
 
-or:
-
-```bash
---reuse-cbir-device cuda:0
-```
-
-## Important output files
-
-The main competition-style output is:
-
-```text
-<out>/submission.csv
-```
-
-Example:
-
-```text
-runs/smoke/submission.csv
-```
-
-## Exact package versions
-
-`requirements.txt` contains the recommended public runtime dependencies.
-
-`requirements-freeze.txt` records the exact package versions from the local environment used for the public smoke test.
+Run `python scripts/main_runner.py --help` for the full list.
 
 ## Attribution
 
@@ -157,37 +111,13 @@ This repository includes modified versions of the following upstream projects.
 ### figure-panel-detection
 
 Based on ResearchIntegrity `panel-extractor`:
-
 [https://github.com/researchintegrity/panel-extractor](https://github.com/researchintegrity/panel-extractor)
 
-Main modifications include:
-
-* ONNX Runtime inference support
-* Python API wrappers
-* Integration changes for this Kaggle solution pipeline
-* Output formatting and crop handling changes
-
-See:
-
-```text
-modules/figure-panel-detection/NOTICE.md
-```
+Modifications: ONNX Runtime inference, Python API wrappers, pipeline integration, output formatting. See `modules/figure-panel-detection/NOTICE.md`.
 
 ### copy-move-det-keypoint
 
 Based on ResearchIntegrity `copy-move-detection-keypoint`:
-
 [https://github.com/researchintegrity/copy-move-detection-keypoint](https://github.com/researchintegrity/copy-move-detection-keypoint)
 
-Main modifications include:
-
-* Python API for programmatic use
-* Cross-panel / pairwise matching integration
-* Prepared/cached feature workflows
-* Return objects and mask outputs used by this solution pipeline
-
-See:
-
-```text
-modules/copy-move-det-keypoint/NOTICE.md
-```
+Modifications: Python API, cross-panel pairwise matching, prepared/cached feature workflows, mask outputs. See `modules/copy-move-det-keypoint/NOTICE.md`.
