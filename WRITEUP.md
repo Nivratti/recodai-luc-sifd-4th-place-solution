@@ -12,6 +12,31 @@ Our solution focused on **inter-panel reuse detection** , comparing panels again
 
 ---
 
+## Code
+
+Code: [https://github.com/Nivratti/recodai-luc-sifd-4th-place-solution](https://github.com/Nivratti/recodai-luc-sifd-4th-place-solution)
+
+The repository contains a cleaned and easier to setup version of our final inference pipeline. The public version focuses on the approach used for the competition submission and avoids unrelated post-competition experiments.
+
+---
+
+## Data
+
+### External Data -- PubMed Central (PMC)
+
+We downloaded millions of scientific figures from the [PubMed Central (PMC)](https://www.ncbi.nlm.nih.gov/pmc/) Open Access subset for analysis purposes.
+
+Raw PMC packages were downloaded paper by paper, figures were extracted from each package, and the raw package was then deleted to keep disk usage manageable.
+
+After extraction, we ran the YOLOv5 panel detector on figures to split them into three buckets: figures containing at least one Blot or Microscopy panel, figures containing only other panel types such as Flow Cytometry or Graphs, and figures where no panels were detected. Keeping these buckets separate made it easier to browse and analyze the distribution of real-world scientific figure layouts, panel sizes, aspect ratios, and arrangement patterns.
+
+A subset of the downloaded PMC figures is publicly available on Kaggle:
+
+- [PMC OA Biomedical Figures — Dec 2025 (weekly)](https://www.kaggle.com/datasets/chatrapati/pmc-oa-biomed-figures-20251201-20251208-base)
+- [PMC OA Biomedical Figures — Nov 2025 (monthly)](https://www.kaggle.com/datasets/chatrapati/pmc-oa-biomed-figures-2025-nov-month-base)
+
+---
+
 ## Solution Details
 
 ### 1. Panel Detection
@@ -95,31 +120,6 @@ After grouping and projection, we applied a final filtering step before encoding
 We removed masks smaller than 10 pixels, merged strongly overlapping masks, and dropped anything outside the image boundary. If no valid mask remained after filtering, the figure was submitted as `authentic`.
 
 Otherwise, the remaining instance masks were RLE encoded into the competition submission format.
-
----
-
-## Code
-
-Code: [https://github.com/Nivratti/recodai-luc-sifd-4th-place-solution](https://github.com/Nivratti/recodai-luc-sifd-4th-place-solution)
-
-The repository contains a cleaned and easier to setup version of our final inference pipeline. The public version focuses on the approach used for the competition submission and avoids unrelated post-competition experiments.
-
----
-
-## Data
-
-### External Data -- PubMed Central (PMC)
-
-We downloaded millions of scientific figures from the [PubMed Central (PMC)](https://www.ncbi.nlm.nih.gov/pmc/) Open Access subset for analysis purposes.
-
-Raw PMC packages were downloaded paper by paper, figures were extracted from each package, and the raw package was then deleted to keep disk usage manageable.
-
-After extraction, we ran the YOLOv5 panel detector on figures to split them into three buckets: figures containing at least one Blot or Microscopy panel, figures containing only other panel types such as Flow Cytometry or Graphs, and figures where no panels were detected. Keeping these buckets separate made it easier to browse and analyze the distribution of real-world scientific figure layouts, panel sizes, aspect ratios, and arrangement patterns.
-
-A subset of the downloaded PMC figures is publicly available on Kaggle:
-
-- [PMC OA Biomedical Figures — Dec 2025 (weekly)](https://www.kaggle.com/datasets/chatrapati/pmc-oa-biomed-figures-20251201-20251208-base)
-- [PMC OA Biomedical Figures — Nov 2025 (monthly)](https://www.kaggle.com/datasets/chatrapati/pmc-oa-biomed-figures-2025-nov-month-base)
 
 ---
 
