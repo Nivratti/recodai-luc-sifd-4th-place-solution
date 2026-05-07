@@ -28,6 +28,12 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+cpu = [
+    "onnxruntime==1.25.1",
+]
+gpu = [
+    "onnxruntime-gpu==1.25.1",
+]
 all = [
     "figure-panel-detection @ file:modules/figure-panel-detection",
     "copy-move-det-keypoint @ file:modules/copy-move-det-keypoint",
