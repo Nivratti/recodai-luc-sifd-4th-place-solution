@@ -104,6 +104,17 @@ python scripts/main_runner.py \
 
 Run `python scripts/main_runner.py --help` for the full list.
 
+## Documentation
+
+| Document | Description |
+|---|---|
+| [WRITEUP.md](WRITEUP.md) | Full solution writeup — pipeline design, decisions, and results |
+| [figure-panel-detection](modules/figure-panel-detection/README.md) | Panel detector module — Python API and CLI reference |
+| [copy-move-det-keypoint](modules/copy-move-det-keypoint/README.md) | Copy-move detection module — usage and configuration |
+| [copy-move-det-keypoint Python API](modules/copy-move-det-keypoint/docs/PYTHON_API.md) | Detailed Python API reference for the copy-move module |
+| [panel-cbir](modules/panel-cbir/README.md) | CBIR module — embedding, indexing, and ranking |
+| [YOLOv5 ONNX model](modules/figure-panel-detection/resources/models/yolov5-onnx/README.md) | Panel detector model details and class definitions |
+
 ## Attribution
 
 This repository includes modified versions of the following upstream projects.
