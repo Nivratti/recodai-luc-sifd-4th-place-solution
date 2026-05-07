@@ -3,6 +3,9 @@ from __future__ import annotations
 from pathlib import Path
 from urllib.request import urlretrieve
 
+from loguru import logger
+from tqdm import tqdm
+
 
 PANEL_DETECTOR_DIR = Path("models/panel_detector")
 
@@ -10,6 +13,21 @@ PANEL_DETECTOR_FILES = {
     "model_4_class.onnx": "https://github.com/Nivratti/recodai-luc-sifd-4th-place-solution/releases/download/panel-detector-v1.0/model_4_class.onnx",
     "model_4_class.json": "https://github.com/Nivratti/recodai-luc-sifd-4th-place-solution/releases/download/panel-detector-v1.0/model_4_class.json",
 }
+
+
+def _make_reporthook(tqdm_bar: tqdm) -> callable:
+    """Return a urlretrieve reporthook that updates a tqdm progress bar."""
+    last_block = [0]
+
+    def reporthook(block_num: int, block_size: int, total_size: int) -> None:
+        if total_size > 0 and tqdm_bar.total is None:
+            tqdm_bar.total = total_size
+            tqdm_bar.refresh()
+        downloaded = block_num * block_size
+        tqdm_bar.update(downloaded - last_block[0])
+        last_block[0] = downloaded
+
+    return reporthook
 
 
 def ensure_panel_detector_model(model_path: str | Path | None = None) -> Path:
@@ -47,15 +65,21 @@ def ensure_panel_detector_model(model_path: str | Path | None = None) -> Path:
 
     model_dir.mkdir(parents=True, exist_ok=True)
 
-    print("Panel detector model files not found locally. Downloading from GitHub release...")
+    logger.info("Panel detector model files not found locally. Downloading from GitHub release...")
 
     for path in missing:
         url = expected_files[path]
         tmp_path = path.with_suffix(path.suffix + ".tmp")
 
-        print(f"Downloading {path.name}...")
         try:
-            urlretrieve(url, tmp_path)
+            with tqdm(
+                unit="B",
+                unit_scale=True,
+                unit_divisor=1024,
+                miniters=1,
+                desc=path.name,
+            ) as bar:
+                urlretrieve(url, tmp_path, reporthook=_make_reporthook(bar))
             tmp_path.replace(path)
         except Exception as exc:
             if tmp_path.exists():
@@ -69,5 +93,5 @@ def ensure_panel_detector_model(model_path: str | Path | None = None) -> Path:
                 "from the GitHub release."
             ) from exc
 
-    print(f"Panel detector model ready: {model_path}")
+    logger.info(f"Panel detector model ready: {model_path}")
     return model_path
