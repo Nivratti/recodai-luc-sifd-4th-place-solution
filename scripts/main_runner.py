@@ -81,8 +81,7 @@ def build_argparser() -> argparse.ArgumentParser:
     # -------------------------
     # NEW: reuse pruning (may affect accuracy if too aggressive)
     # -------------------------
-    p.add_argument("--reuse-prune", action="store_true", help="Enable candidate pruning (CBIR/group/geometry).")
-
+    p.add_argument("--reuse-prune", action=argparse.BooleanOptionalAction, default=True, help="Enable candidate pruning (CBIR/group/geometry). Default: on.")
     p.add_argument("--reuse-prune-disable-cbir", action="store_true", help="Disable CBIR shortlist (if prune enabled).")
     p.add_argument("--reuse-prune-disable-grouping", action="store_true", help="Disable type grouping (if prune enabled).")
     p.add_argument("--reuse-prune-disable-geometry", action="store_true", help="Disable aspect/area filters (if prune enabled).")
@@ -98,13 +97,13 @@ def build_argparser() -> argparse.ArgumentParser:
 
     # CBIR settings
     p.add_argument("--reuse-cbir-topk", type=int, default=12, help="Top-K candidates per panel from CBIR (if enabled).")
-    p.add_argument("--reuse-cbir-device", default="cuda", help="CBIR device (e.g., cuda, cuda:0, cpu).")
+    p.add_argument("--reuse-cbir-device", default="cpu", help="CBIR device (e.g., cpu, cuda, cuda:0).")
     p.add_argument("--reuse-cbir-backend", default="timm", help="CBIR backend (panel_cbir).")
     p.add_argument("--reuse-cbir-model", default="resnet50", help="CBIR model name (panel_cbir).")
     p.add_argument("--reuse-cbir-batch-size", type=int, default=64, help="CBIR batch size.")
-    p.add_argument("--reuse-cbir-fp16", action=argparse.BooleanOptionalAction, default=True, help="CBIR embedding fp16.")
-    p.add_argument("--reuse-cbir-score-fp16", action=argparse.BooleanOptionalAction, default=True, help="CBIR scoring fp16.")
-
+    p.add_argument("--reuse-cbir-fp16", action=argparse.BooleanOptionalAction, default=False, help="CBIR embedding fp16. Enable for GPU inference.")
+    p.add_argument("--reuse-cbir-score-fp16", action=argparse.BooleanOptionalAction, default=False, help="CBIR scoring fp16. Enable for GPU inference.")
+    
     # Geometry
     p.add_argument("--reuse-aspect-log-tol", type=float, default=0.9, help="Aspect ratio log tolerance (geometry prune).")
     p.add_argument("--reuse-area-ratio-min", type=float, default=0.20, help="Min area ratio (geometry prune).")
