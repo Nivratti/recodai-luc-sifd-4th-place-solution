@@ -154,6 +154,26 @@ If filtering was too strong, it could remove useful small masks. If merging was 
 
 ---
 
+## What Was Not Finished
+
+Several things were planned but not fully completed before the submission deadline.
+
+### 1. Intra-Panel Copy-Move Forgery Segmentation Model
+
+A model to detect and segment copy-move forgery within a single panel image.
+
+### 2. Image Matching Models
+
+We explored [VisMatch](https://github.com/gmberton/vismatch) to evaluate multiple matchers including MatchAnything-RoMa, MatchAnything-EfficientLoFTR, and others.
+
+### 3. Improved CV-Based Inter-Panel Reuse Detection
+
+### 4. Panel Annotation Segmentation Model
+
+A model to segment annotation elements inside panels — text labels, arrows, scale bars, callouts, and bounding boxes etc.. The purpose was to pass the resulting annotation mask as context to the intra-panel forgery segmnetation model, allowing it to focus on actual scientific content rather than figure annotations.
+
+---
+
 ### Thanks and Acknowledgements
 
 Thanks to Recod.ai, LUC, and the competition organizers for hosting this interesting and challenging competition.
