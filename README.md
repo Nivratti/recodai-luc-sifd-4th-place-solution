@@ -6,7 +6,6 @@ This repository contains a cleaned public version of my 4th place solution for t
 
 The code was cleaned from the exact Kaggle submission build to make it easier to install, and run.
 
-
 ## What this solution does
 
 The pipeline performs:
@@ -41,11 +40,26 @@ The main runner is `scripts/main_runner.py`.
 
 ## Setup
 
-```bash
-# CPU
-pip install -e ".[all,cpu]"
+Python 3.11 is recommended. Create and activate an environment:
 
-# GPU
+```bash
+# conda
+conda create -n recodai-sifd python=3.11 -y
+conda activate recodai-sifd
+
+# or plain venv
+python -m venv .venv && source .venv/bin/activate  # Windows: .venv\Scripts\activate
+```
+
+Then install — pick **one** depending on your hardware:
+
+**CPU**
+```bash
+pip install -e ".[all,cpu]"
+```
+
+**GPU (CUDA)**
+```bash
 pip install -e ".[all,gpu]"
 ```
 
@@ -90,30 +104,30 @@ python scripts/main_runner.py \
 
 ## Key options
 
-| Flag | Default | Description |
-|---|---|---|
-| `--input` | `resources/samples` | Image file or folder |
-| `--out` | `runs/sifd/v1` | Output folder |
-| `--reuse-cbir-device` | `cpu` | Device for CBIR (`cpu`, `cuda`, `cuda:0`) |
-| `--reuse-cbir-topk` | `12` | Top-K candidates per panel from CBIR |
-| `--reuse-cbir-batch-size` | `64` | CBIR batch size |
-| `--reuse-cbir-fp16` | `False` | fp16 embeddings — enable for GPU |
-| `--reuse-prune` | `True` | Candidate pruning (CBIR + geometry + grouping) |
-| `--max-images` | `None` | Process only first N images (useful for testing) |
-| `--debug` | `False` | Verbose logs and extra artifacts |
+| Flag                        | Default               | Description                                      |
+| --------------------------- | --------------------- | ------------------------------------------------ |
+| `--input`                 | `resources/samples` | Image file or folder                             |
+| `--out`                   | `runs/sifd/v1`      | Output folder                                    |
+| `--reuse-cbir-device`     | `cpu`               | Device for CBIR (`cpu`, `cuda`, `cuda:0`)  |
+| `--reuse-cbir-topk`       | `12`                | Top-K candidates per panel from CBIR             |
+| `--reuse-cbir-batch-size` | `64`                | CBIR batch size                                  |
+| `--reuse-cbir-fp16`       | `False`             | fp16 embeddings — enable for GPU                |
+| `--reuse-prune`           | `True`              | Candidate pruning (CBIR + geometry + grouping)   |
+| `--max-images`            | `None`              | Process only first N images (useful for testing) |
+| `--debug`                 | `False`             | Verbose logs and extra artifacts                 |
 
 Run `python scripts/main_runner.py --help` for the full list.
 
 ## Documentation
 
-| Document | Description |
-|---|---|
-| [WRITEUP.md](WRITEUP.md) | Full solution writeup — pipeline design, decisions, and results |
-| [figure-panel-detection](modules/figure-panel-detection/README.md) | Panel detector module — Python API and CLI reference |
-| [copy-move-det-keypoint](modules/copy-move-det-keypoint/README.md) | Copy-move detection module — usage and configuration |
-| [copy-move-det-keypoint Python API](modules/copy-move-det-keypoint/docs/PYTHON_API.md) | Detailed Python API reference for the copy-move module |
-| [panel-cbir](modules/panel-cbir/README.md) | CBIR module — embedding, indexing, and ranking |
-| [YOLOv5 ONNX model](modules/figure-panel-detection/resources/models/yolov5-onnx/README.md) | Panel detector model details and class definitions |
+| Document                                                                                | Description                                                      |
+| --------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| [WRITEUP.md](WRITEUP.md)                                                                   | Full solution writeup — pipeline design, decisions, and results |
+| [figure-panel-detection](modules/figure-panel-detection/README.md)                         | Panel detector module — Python API and CLI reference            |
+| [copy-move-det-keypoint](modules/copy-move-det-keypoint/README.md)                         | Copy-move detection module — usage and configuration            |
+| [copy-move-det-keypoint Python API](modules/copy-move-det-keypoint/docs/PYTHON_API.md)     | Detailed Python API reference for the copy-move module           |
+| [panel-cbir](modules/panel-cbir/README.md)                                                 | CBIR module — embedding, indexing, and ranking                  |
+| [YOLOv5 ONNX model](modules/figure-panel-detection/resources/models/yolov5-onnx/README.md) | Panel detector model details and class definitions               |
 
 ## Attribution
 
