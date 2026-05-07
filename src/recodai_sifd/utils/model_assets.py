@@ -7,7 +7,7 @@ from loguru import logger
 from tqdm import tqdm
 
 
-PANEL_DETECTOR_DIR = Path("models/panel_detector")
+PANEL_DETECTOR_DIR = Path("resources/models/panel_detector")
 
 PANEL_DETECTOR_FILES = {
     "model_4_class.onnx": "https://github.com/Nivratti/recodai-luc-sifd-4th-place-solution/releases/download/panel-detector-v1.0/model_4_class.onnx",

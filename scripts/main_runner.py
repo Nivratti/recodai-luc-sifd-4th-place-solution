@@ -27,7 +27,7 @@ def build_argparser() -> argparse.ArgumentParser:
     # Panel detector
     p.add_argument(
         "--model",
-        default="models/panel_detector/model_4_class.onnx",
+        default="resources/models/panel_detector/model_4_class.onnx",
         help=(
             "Path to panel detector .onnx model. If the model or class JSON is missing, "
             "the public release files are downloaded automatically."
