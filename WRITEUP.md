@@ -116,6 +116,11 @@ Raw PMC packages were downloaded paper by paper, figures were extracted from eac
 
 After extraction, we ran the YOLOv5 panel detector on figures to split them into three buckets: figures containing at least one Blot or Microscopy panel, figures containing only other panel types such as Flow Cytometry or Graphs, and figures where no panels were detected. Keeping these buckets separate made it easier to browse and analyze the distribution of real-world scientific figure layouts, panel sizes, aspect ratios, and arrangement patterns.
 
+A subset of the downloaded PMC figures is publicly available on Kaggle:
+
+- [PMC OA Biomedical Figures — Dec 2025 (weekly)](https://www.kaggle.com/datasets/chatrapati/pmc-oa-biomed-figures-20251201-20251208-base)
+- [PMC OA Biomedical Figures — Nov 2025 (monthly)](https://www.kaggle.com/datasets/chatrapati/pmc-oa-biomed-figures-2025-nov-month-base)
+
 ---
 
 ### What Worked
