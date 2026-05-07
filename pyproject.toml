@@ -1,19 +1,45 @@
-[build-system]
-requires = ["setuptools>=68", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "recodai-sifd"
 version = "0.1.0"
-description = "Wrapper repo."
+description = "4th place solution for Recod.ai LUC Scientific Image Forgery Detection."
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 dependencies = [
-  "numpy>=1.23",
-  "opencv-python>=4.7",
-  "onnxruntime>=1.15",
-  "tqdm>=4.66",
+    "numpy==2.4.4",
+    "pillow==12.2.0",
+    "opencv-contrib-python==4.13.0.92",
+    "onnxruntime==1.25.1",
+    "loguru==0.7.3",
+    "tqdm==4.67.3",
+    "pandas==3.0.2",
+    "scipy==1.17.1",
+    "scikit-image==0.26.0",
+    "scikit-learn==1.8.0",
+    "numba==0.65.1",
+    "PyYAML==6.0.3",
+    "matplotlib==3.10.9",
+    "torch==2.11.0",
+    "torchvision==0.26.0",
+    "timm==1.0.26",
+    "huggingface_hub==1.13.0",
+    "safetensors==0.7.0",
+    "rich==15.0.0",
+    "typer==0.25.1",
 ]
+
+[project.optional-dependencies]
+all = [
+    "figure-panel-detection @ file:modules/figure-panel-detection",
+    "copy-move-det-keypoint @ file:modules/copy-move-det-keypoint",
+    "panel-cbir @ file:modules/panel-cbir",
+]
+dev = [
+    "pytest",
+]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
