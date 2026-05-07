@@ -106,6 +106,18 @@ The repository contains a cleaned and easier to setup version of our final infer
 
 ---
 
+## Data
+
+### External Data -- PubMed Central (PMC)
+
+We downloaded millions of scientific figures from the [PubMed Central (PMC)](https://www.ncbi.nlm.nih.gov/pmc/) Open Access subset for analysis purposes.
+
+Raw PMC packages were downloaded paper by paper, figures were extracted from each package, and the raw package was then deleted to keep disk usage manageable.
+
+After extraction, we ran the YOLOv5 panel detector on figures to split them into three buckets: figures containing at least one Blot or Microscopy panel, figures containing only other panel types such as Flow Cytometry or Graphs, and figures where no panels were detected. Keeping these buckets separate made it easier to browse and analyze the distribution of real-world scientific figure layouts, panel sizes, aspect ratios, and arrangement patterns.
+
+---
+
 ### What Worked
 
 **Panel-first approach**
